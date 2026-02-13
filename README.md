@@ -21,6 +21,17 @@ Este projeto faz parte de uma arquitetura baseada em microsserviços, permitindo
 
 ## 📁 Estrutura do Projeto
 
+```
+agendamento_especialidades/
+│
+├── docker-compose.yml
+├── pom.xml
+└── src
+    └── main
+        ├── java/
+        └── resources/
+            └── application.yml
+```
 
 ---
 
@@ -32,7 +43,7 @@ Este projeto faz parte de uma arquitetura baseada em microsserviços, permitindo
 ✔️ Atualização de agendamento  
 ✔️ Remoção de agendamento  
 ✔️ Integração com mensageria via Kafka  
-✔️ Persistência em banco PostgreSQL  
+✔️ Persistência em banco PostgreSQL
 
 ---
 
@@ -51,11 +62,18 @@ Antes de executar o projeto, é necessário ter instalado:
 
 ### 🔹 1. Clonar o Repositório
 
-bash
+```bash
 git clone https://github.com/Winkler30/agendamento_especialidades.git
 cd agendamento_especialidades
+```
+
+---
 
 ### 🔹 2. Subir Infraestrutura com Docker
+
+```bash
+docker compose up -d
+```
 
 Isso irá iniciar:
 
@@ -64,56 +82,85 @@ Isso irá iniciar:
 - Zookeeper
 - Aplicação Spring Boot (se configurado no compose)
 
+---
+
 ### 🔹 3. Rodar Localmente (sem Docker)
 
 Compilar o projeto:
-- mvn clean install
+
+```bash
+mvn clean install
+```
 
 Executar a aplicação:
-- mvn spring-boot:run
+
+```bash
+mvn spring-boot:run
+```
 
 A aplicação iniciará normalmente na porta padrão:
-- http://localhost:8080
 
-### 📌 Endpoints da API
+```
+http://localhost:8080
+```
+
+---
+
+## 📌 Endpoints da API
 
 | Método | Endpoint             | Descrição                   |
-| ------ | -------------------- | --------------------------- |
+|--------|----------------------|----------------------------|
 | GET    | `/agendamentos`      | Lista todos os agendamentos |
 | GET    | `/agendamentos/{id}` | Busca agendamento por ID    |
 | POST   | `/agendamentos`      | Cria novo agendamento       |
 | PUT    | `/agendamentos/{id}` | Atualiza um agendamento     |
 | DELETE | `/agendamentos/{id}` | Remove um agendamento       |
 
-### 📄 Exemplo de Payload (POST)
+---
 
+## 📄 Exemplo de Payload (POST)
+
+```json
 {
   "pacienteId": 1,
   "especialidade": "Cardiologia",
   "data": "2026-02-20",
   "hora": "14:30"
 }
+```
 
-### ⚙️ Variáveis de Ambiente (Exemplo)
+---
+
+## ⚙️ Variáveis de Ambiente (Exemplo)
 
 Caso execute fora do Docker, configure:
 
+```bash
 SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/agendamentos
 SPRING_DATASOURCE_USERNAME=postgres
 SPRING_DATASOURCE_PASSWORD=postgres
 SPRING_KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+```
 
-Ou configure diretamente no application.yml.
+Ou configure diretamente no `application.yml`.
 
-###🧪 Testes
+---
+
+## 🧪 Testes
 
 Para executar os testes:
-- mvn test
 
-### 🏗️ Arquitetura
+```bash
+mvn test
+```
+
+---
+
+## 🏗️ Arquitetura
 
 Este microsserviço segue o padrão REST e pode ser integrado a outros serviços da arquitetura por meio de:
 
-APIs HTTP
+- APIs HTTP
+- Publicação/consumo de eventos via Kafka
 
-Publicação/consumo de eventos via Kafka
+---
